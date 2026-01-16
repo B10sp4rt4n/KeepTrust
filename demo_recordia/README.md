@@ -59,15 +59,21 @@ streamlit run app.py
 - Branch: `main`
 - Main file path: `demo_recordia/app.py`
 
-### Paso 4: (Opcional) Configurar Secrets
+### Paso 4: Configurar Secrets
 
 En Streamlit Cloud → App settings → Secrets:
 
 ```toml
+# Base de datos Neon (requerido para persistencia)
+DATABASE_URL = "postgresql://user:pass@ep-xxx.region.aws.neon.tech/neondb?sslmode=require"
+
+# OpenAI API Key (opcional - funciona en modo MOCK sin esto)
 OPENAI_API_KEY = "sk-tu-clave-aqui"
 ```
 
-> **Nota:** La aplicación funciona sin API key en modo MOCK para demostraciones.
+**📌 Nota:** Para obtener tu `DATABASE_URL`, sigue la guía en [NEON_SETUP.md](NEON_SETUP.md)
+
+> **Sin DATABASE_URL:** La app funcionará con SQLite local, pero los datos se perderán al reiniciar.
 
 ## 🔑 Configuración de OpenAI API
 
