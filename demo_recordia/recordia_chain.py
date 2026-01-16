@@ -35,6 +35,14 @@ def construir_cadena_documental(event_id, ventana_horas=72):
         decision_usuario = evento['decision_usuario']
         enviado_boveda = evento['enviado_boveda']
     else:
+        (ev_id, ts, proceso, importancia, hecho, ia_result, decision_usuario, enviado_boveda) = evento
+
+    ts_evento = datetime.fromisoformat(ts)
+
+    # Eventos relacionados (mismo proceso, ventana temporal)
+    ts_inicio = (ts_evento - timedelta(hours=ventana_horas)).isoformat()
+    ts_fin = (ts_evento + timedelta(hours=ventana_horas)).isoformat()
+
     query_rel = """
         SELECT event_id
         FROM recordia_events
@@ -76,15 +84,7 @@ def construir_cadena_documental(event_id, ventana_horas=72):
                 "detalle": "Sellada en Hot Vault" if enviado_boveda else "No enviada a bóveda"
             }
         ],
-        "eventos_relacionados": [r['event_id'] if isinstance(r, dict) else on_usuario
-            },
-            {
-                "tipo": "evidencia",
-                "titulo": "Estado de evidencia",
-                "detalle": "Sellada en Hot Vault" if enviado_boveda else "No enviada a bóveda"
-            }
-        ],
-        "eventos_relacionados": [r[0] for r in relacionados],
+        "eventos_relacionados": [r['event_id'] if isinstance(r, dict) else r[0] for r in relacionados],
         "declaracion": (
             "Esta cadena documental fue generada automáticamente a partir de "
             "registros verificados. El contenido es de solo lectura."
