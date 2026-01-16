@@ -1,32 +1,49 @@
-import sqlite3
 import json
 from collections import Counter
 from openai import OpenAI
 import os
 from datetime import datetime
-
-# ---------- CONFIG ----------
-DB_NAME = "recordia.sqlite"
+from database import get_database_connection, execute_query
 
 # ---------- DATASET EXO ----------
 def construir_dataset_exo(periodo_inicio=None, periodo_fin=None):
-    conn = sqlite3.connect(DB_NAME)
+    conn, db_type = get_database_connection()
     c = conn.cursor()
 
     query = "SELECT timestamp, proceso, importancia, ia_result, enviado_boveda FROM recordia_events"
-    rows = c.execute(query).fetchall()
+    execute_query(c, query, db_type=db_type)
+    rows = c.fetchall()
+    conn.close()
+execute_query(c, query, db_type=db_type)
+    rows = c.fetchall()
     conn.close()
 
     total_eventos = len(rows)
-    eventos_sellados = sum(r[4] for r in rows)
-
-    procesos = Counter()
-    riesgos = Counter()
-    ia_recomienda = 0
-    humano_acepta = eventos_sellados
-
-    for ts, proceso, importancia, ia_result, enviado in rows:
+    
+    # Manejar diferencia entre SQLite (tupla) y PostgreSQL (dict)
+    if rows and isinstance(rows[0], dict):
+        eventos_sellados = sum(r['enviado_boveda'] for r in rows)
+    else:
+        procesos = Counter()
+    riesrow in rows:
+        # Compatibilidad SQLite (tupla) y PostgreSQL (dict)
+        if isinstance(row, dict):
+            proceso = row['proceso']
+            importancia = row['importancia']
+            ia_result = row['ia_result']
+            enviado = row['enviado_boveda']
+        else:
+            ts, proceso, importancia, ia_result, enviado = row
+        
         procesos[proceso] += 1
+        riesgos[importancia] += 1
+
+        if ia_result:
+            if isinstance(ia_result, str):
+                ia_data = json.loads(ia_result)
+            else:
+                ia_data = ia_result
+            
         riesgos[importancia] += 1
 
         if ia_result:

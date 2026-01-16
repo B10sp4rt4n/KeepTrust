@@ -1,5 +1,4 @@
 import streamlit as st
-import sqlite3
 import json
 import uuid
 from datetime import datetime
@@ -10,12 +9,17 @@ import matplotlib.pyplot as plt
 from openai import OpenAI
 from report_keeptrust import construir_dataset_exo, generar_reporte_keeptrust
 from recordia_chain import construir_cadena_documental
+from database import get_database_connection, init_database, execute_query
 
 # ---------- CONFIG ----------
-DB_NAME = "recordia.sqlite"
 HOT_VAULT_PATH = "hot_vault"
-
 os.makedirs(HOT_VAULT_PATH, exist_ok=True)
+
+# ---------- DB ----------
+conn, db_type = get_database_connection()
+c = init_database(conn, db_type)
+
+st.sidebar.info(f"🗄️ Base de datos: **{db_type.upper()}**")
 
 # Verificar si hay API key disponible
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -35,24 +39,6 @@ USE_REAL_IA = bool(OPENAI_API_KEY)
 
 if USE_REAL_IA:
     client = OpenAI(api_key=OPENAI_API_KEY)
-
-# ---------- DB ----------
-conn = sqlite3.connect(DB_NAME, check_same_thread=False)
-c = conn.cursor()
-
-c.execute("""
-CREATE TABLE IF NOT EXISTS recordia_events (
-    event_id TEXT,
-    timestamp TEXT,
-    proceso TEXT,
-    importancia TEXT,
-    hecho TEXT,
-    ia_result TEXT,
-    decision_usuario TEXT,
-    enviado_boveda INTEGER
-)
-""")
-conn.commit()
 
 # ---------- SISTEMA PROMPT ----------
 SYSTEM_PROMPT = """
@@ -229,7 +215,7 @@ if "ia_result" in st.session_state:
             hash_boveda = guardar_en_hot_vault(evento_boveda)
             enviado = 1
 
-        c.execute("""
+        execute_query(c, """
         INSERT INTO recordia_events VALUES (?,?,?,?,?,?,?,?)
         """, (
             st.session_state["event_id"],
@@ -240,7 +226,7 @@ if "ia_result" in st.session_state:
             json.dumps(st.session_state["ia_result"]),
             "Guardar" if guardar else "No guardar",
             enviado
-        ))
+        ), db_type)
         conn.commit()
 
         st.success("Evento registrado en Recordia")
