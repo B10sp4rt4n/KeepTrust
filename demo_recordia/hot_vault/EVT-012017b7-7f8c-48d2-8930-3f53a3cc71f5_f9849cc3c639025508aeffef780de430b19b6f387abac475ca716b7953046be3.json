@@ -1,0 +1,15 @@
+{
+  "event_id": "EVT-012017b7-7f8c-48d2-8930-3f53a3cc71f5",
+  "timestamp": "2026-01-16T01:51:24.289491",
+  "hecho": "Se perdieron los reportes de actividades comerciales del mes de Agosto 2025",
+  "proceso": "Ventas",
+  "importancia": "Relevante",
+  "ia_result": {
+    "clasificacion": "Pérdida de datos",
+    "nivel_riesgo": "Alto",
+    "recipiente_sugerido": "Digital",
+    "guardar_boveda": true,
+    "justificacion": "La pérdida de reportes de actividades comerciales puede afectar la toma de decisiones y la planificación futura, por lo que es importante guardar evidencia de este evento."
+  },
+  "decision_usuario": "Guardar en bóveda"
+}

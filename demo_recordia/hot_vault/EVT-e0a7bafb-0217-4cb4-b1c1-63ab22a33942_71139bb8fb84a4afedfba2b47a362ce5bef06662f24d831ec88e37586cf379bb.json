@@ -1,0 +1,15 @@
+{
+  "event_id": "EVT-e0a7bafb-0217-4cb4-b1c1-63ab22a33942",
+  "timestamp": "2026-01-16T02:46:25.625344",
+  "hecho": "La auditoria iso 9001 y nuestra clasificación ASG se cubrieron pero con desviaciones principalmente por las emisiones de carbono de nuestros procesos",
+  "proceso": "Legal / Cumplimiento",
+  "importancia": "Relevante",
+  "ia_result": {
+    "clasificacion": "Cumplimiento Normativo",
+    "nivel_riesgo": "Alto",
+    "recipiente_sugerido": "Informe de Auditoría",
+    "guardar_boveda": true,
+    "justificacion": "Las desviaciones en la auditoría ISO 9001 y la clasificación ASG pueden tener implicaciones legales y reputacionales significativas, por lo que es crucial conservar esta información como evidencia."
+  },
+  "decision_usuario": "Guardar en bóveda"
+}

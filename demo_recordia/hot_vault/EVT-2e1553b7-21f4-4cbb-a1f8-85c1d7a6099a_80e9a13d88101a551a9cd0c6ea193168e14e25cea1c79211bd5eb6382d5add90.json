@@ -1,0 +1,15 @@
+{
+  "event_id": "EVT-2e1553b7-21f4-4cbb-a1f8-85c1d7a6099a",
+  "timestamp": "2026-01-16T01:55:09.532253",
+  "hecho": "El area de sistemas resolvio el presente año varios temas asociadas a ciberseguridad, que nos implicaban responsabilidad con la información de RH y con posbiles demandas por filtración de información.",
+  "proceso": "Legal / Cumplimiento",
+  "importancia": "Crítico",
+  "ia_result": {
+    "clasificacion": "Ciberseguridad",
+    "nivel_riesgo": "Alto",
+    "recipiente_sugerido": "Digital",
+    "guardar_boveda": true,
+    "justificacion": "La información de RH es sensible y su filtración puede resultar en demandas legales y daño a la reputación de la empresa."
+  },
+  "decision_usuario": "Guardar en bóveda"
+}

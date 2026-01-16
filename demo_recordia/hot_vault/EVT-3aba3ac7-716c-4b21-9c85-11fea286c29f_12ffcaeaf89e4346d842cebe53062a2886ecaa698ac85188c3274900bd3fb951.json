@@ -1,0 +1,15 @@
+{
+  "event_id": "EVT-3aba3ac7-716c-4b21-9c85-11fea286c29f",
+  "timestamp": "2026-01-16T02:05:42.104494",
+  "hecho": "Se redefinen procesos que van a ir involucrados con ISO-27001",
+  "proceso": "Operaciones",
+  "importancia": "Relevante",
+  "ia_result": {
+    "clasificacion": "Redefinición de procesos",
+    "nivel_riesgo": "Moderado",
+    "recipiente_sugerido": "Documentación interna",
+    "guardar_boveda": true,
+    "justificacion": "La redefinición de procesos relacionados con ISO-27001 es crucial para la gestión de la seguridad de la información y puede tener implicaciones significativas en la conformidad y la operación de la organización."
+  },
+  "decision_usuario": "Guardar en bóveda"
+}
