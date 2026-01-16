@@ -14,9 +14,6 @@ def construir_dataset_exo(periodo_inicio=None, periodo_fin=None):
     execute_query(c, query, db_type=db_type)
     rows = c.fetchall()
     conn.close()
-execute_query(c, query, db_type=db_type)
-    rows = c.fetchall()
-    conn.close()
 
     total_eventos = len(rows)
     
@@ -24,8 +21,14 @@ execute_query(c, query, db_type=db_type)
     if rows and isinstance(rows[0], dict):
         eventos_sellados = sum(r['enviado_boveda'] for r in rows)
     else:
-        procesos = Counter()
-    riesrow in rows:
+        eventos_sellados = sum(r[4] for r in rows)
+
+    procesos = Counter()
+    riesgos = Counter()
+    ia_recomienda = 0
+    humano_acepta = eventos_sellados
+
+    for row in rows:
         # Compatibilidad SQLite (tupla) y PostgreSQL (dict)
         if isinstance(row, dict):
             proceso = row['proceso']
@@ -44,10 +47,6 @@ execute_query(c, query, db_type=db_type)
             else:
                 ia_data = ia_result
             
-        riesgos[importancia] += 1
-
-        if ia_result:
-            ia_data = json.loads(ia_result)
             if ia_data.get("guardar_boveda"):
                 ia_recomienda += 1
 
